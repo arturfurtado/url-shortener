@@ -36,7 +36,7 @@ const AnalyticsDashboard = () => {
   if (!analyticsData) return <div>Loading...</div>;
 
   return (
-    <div className="p-8 space-y-8">
+    <div className="p-8 space-y-8 bg-gradient-to-br from-gray-900 to-gray-800">
       <h2 className="text-2xl font-bold text-white">Estatísticas para: {code}</h2>
       
       <div className="bg-gray-800 p-6 rounded-lg">
