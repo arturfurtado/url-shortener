@@ -17,8 +17,7 @@ Encurtador de URL.
 - [Fastify](https://www.fastify.io/)
 - [JWT (JSON Web Tokens)](https://jwt.io/)
 - [SQLite](https://www.sqlite.org/)
-- [BCrypt](https://github.com/kelektiv/node.bcrypt.js/)pt
-
+- [BCrypt](https://github.com/kelektiv/node.bcrypt.js/
 
 ## Screenshots
 
