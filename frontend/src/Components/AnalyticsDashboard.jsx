@@ -9,7 +9,7 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Cell
+  Cell,
 } from 'recharts';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
@@ -17,32 +17,49 @@ import { useParams } from 'react-router-dom';
 const AnalyticsDashboard = () => {
   const { code } = useParams();
   const [analyticsData, setAnalyticsData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/analytics/${code}`);
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+          setError('Token não encontrado. Faça login novamente.');
+          setLoading(false);
+          return;
+        }
+
+        const response = await axios.get(`http://localhost:3001/api/analytics/${code}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
         setAnalyticsData(response.data);
-      } catch (error) {
-        console.error('Error fetching analytics:', error);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching analytics:', err);
+        setError('Erro ao buscar analytics. Verifique o console para mais detalhes.');
+        setLoading(false);
       }
     };
 
     fetchData();
   }, [code]);
 
-  if (!analyticsData) return <div className='text-white'>Loading...</div>;
+  if (loading) return <div className="text-white">Loading...</div>;
+  if (error) return <div className="text-red-500">{error}</div>;
 
   return (
-    <div className="p-8 space-y-8 bg-gradient-to-br from-gray-900 to-gray-800">
+    <div className="p-8 space-y-8 bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg">
       <h2 className="text-2xl font-bold text-white">Estatísticas para: {code}</h2>
-      
-      <div className="bg-gray-800 p-6 rounded-lg">
+
+      <div className="bg-gray-800 p-6 rounded-lg shadow-md">
         <h3 className="text-xl font-semibold text-white mb-4">Total de Cliques</h3>
         <p className="text-4xl font-bold text-blue-400">{analyticsData.totalClicks}</p>
       </div>
 
-      <div className="bg-gray-800 p-6 rounded-lg">
+      <div className="bg-gray-800 p-6 rounded-lg shadow-md">
         <h3 className="text-xl font-semibold text-white mb-4">Cliques por Dia</h3>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
@@ -64,8 +81,7 @@ const AnalyticsDashboard = () => {
           </ResponsiveContainer>
         </div>
       </div>
-
-      <div className="bg-gray-800 p-6 rounded-lg">
+      <div className="bg-gray-800 p-6 rounded-lg shadow-md">
         <h3 className="text-xl font-semibold text-white mb-4">Fontes de Tráfego</h3>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
