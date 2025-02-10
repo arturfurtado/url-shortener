@@ -5,15 +5,13 @@ Simples e facil encurtador de URL, com o simples objetivo de criar algo realment
 Por enquanto é possível criar uma URL personalizada e ver gráficos com dados sobre o cliques de tal URL.
 
 # Futuro
-Criação de usuário.
-Histórico de URL's criadas pelo usuário.
-Análise de todas as URL's do usuário.
+Teste unitarios
 
 ## Stack utilizada
 
-**Front-end:** React, TailwindCSS
+**Front-end:** React, TailwindCSS, Recharts, Axios
 
-**Back-end:** Node, Fastify
+**Back-end:** Node, Fastify, JWT, SQlite, BCrypt
 
 
 ## Screenshots
