@@ -70,10 +70,12 @@ function Home() {
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex flex-col items-center p-4">
       <header className="w-full flex justify-end p-4">
         {user ? (
-          <div onClick={handleLogout} className="flex items-center cursor-pointer text-white">
-            <User size={24} className="mr-2" />
-            <span>{user.username}</span>
-            <LogOut size={24} className="ml-2" />
+          <div className="flex items-center  text-white space-x-6">
+            <Link className='cursor-pointer flex items-center justify-center bg-slate-700 hover:bg-slate-800 hover:scale-110 transition-all px-4 py-2 rounded' to='/login'>
+              <User size={24} />
+              <span className='font-bold text-xl'>{user.username}</span>
+            </Link>
+            <LogOut className="cursor-pointer hover:scale-120 transition-transform" onClick={handleLogout} size={24}  />
           </div>
         ) : (
           <div className="flex space-x-5">
@@ -135,8 +137,8 @@ function Home() {
               type="submit"
               disabled={loading}
               className={`flex items-center justify-center gap-2 w-full py-4 font-medium rounded-lg transition-all ${loading
-                  ? 'bg-blue-400/50 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-400 hover:to-purple-500 text-white font-semibold text-lg'
+                ? 'bg-blue-400/50 cursor-not-allowed'
+                : 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-400 hover:to-purple-500 text-white font-semibold text-lg'
                 }`}
             >
               {loading ? (
