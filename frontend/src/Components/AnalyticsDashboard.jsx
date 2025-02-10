@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import {
   LineChart,
   Line,
-  BarChart,
-  Bar,
   PieChart,
   Pie,
   ResponsiveContainer,
@@ -33,7 +31,7 @@ const AnalyticsDashboard = () => {
     fetchData();
   }, [code]);
 
-  if (!analyticsData) return <div>Loading...</div>;
+  if (!analyticsData) return <div className='text-white'>Loading...</div>;
 
   return (
     <div className="p-8 space-y-8 bg-gradient-to-br from-gray-900 to-gray-800">
