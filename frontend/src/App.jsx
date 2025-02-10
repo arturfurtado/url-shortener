@@ -1,9 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './Home'; 
-import AnalyticsDashboard from './Components/AnalyticsDashboard';
-import Register from './Components/Register';
-import Login from './Components/Login';
+import Home from './components/Home'; 
+import AnalyticsDashboard from './components/AnalyticsDashboard';
+import Register from './components/Register';
+import Login from './components/Login';
+import RedirectShortUrl from './components/RedirectShortUrl';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/analytics/:code" element={<AnalyticsDashboard />} />
         <Route path='/register' element={<Register/>} />
         <Route path='/login' element={<Login/>} />
+        <Route path="/:code" element={<RedirectShortUrl />} />
       </Routes>
     </Router>
   );

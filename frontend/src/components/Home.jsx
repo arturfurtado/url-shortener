@@ -168,8 +168,9 @@ function Home() {
                     {shortUrl}
                   </a>
                   <button
+                  type='button'
                     onClick={copyToClipboard}
-                    className="text-gray-400 hover:text-gray-300 transition-colors"
+                    className="text-gray-400 hover:text-gray-300 transition-colors cursor-pointer"
                   >
                     {copied ? <Check size={16} /> : <Copy size={16} />}
                   </button>
