@@ -91,7 +91,7 @@ fastify.post('/api/shorten', { preHandler: [fastify.authenticate] }, async (requ
         }
       );
     });
-    return reply.send({ shortUrl: `http://localhost:3000/${code}`, isCustom: !!customSlug });
+    return reply.send({ shortUrl: `http://localhost:5173/${code}`, isCustom: !!customSlug });
   } catch (error) {
     return reply.status(500).send({ error: 'Erro ao salvar URL.' });
   }
