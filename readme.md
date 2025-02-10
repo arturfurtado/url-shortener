@@ -23,5 +23,9 @@ Por enquanto é possível criar uma URL personalizada e ver gráficos com dados 
 
 ## Screenshots
 
-![Home](short.png)
+![Home](/public/home.png)
+![Urls](/public/urls.png)
+![Stats](/public/statistics.png)
+
+
 
