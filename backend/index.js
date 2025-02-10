@@ -210,7 +210,7 @@ fastify.post('/login', async (request, reply) => {
       return reply.status(401).send({ error: 'Credenciais inválidas' });
     }
     const token = jwt.sign({ id: user.id, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
-    return reply.send({ token });
+    return reply.send({ token, username: user.username });
   } catch (err) {
     return reply.status(500).send({ error: 'Erro no login' });
   }
