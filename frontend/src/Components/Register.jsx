@@ -13,7 +13,6 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    // Verifica se as senhas são iguais
     if (password !== confirmPassword) {
       setError('As senhas não coincidem.');
       return;

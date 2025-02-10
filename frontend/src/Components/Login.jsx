@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import AnalyticsDashboard from './AnalyticsDashboard';
 import { Link } from 'react-router-dom';
 import { User } from 'lucide-react';
 
@@ -9,18 +8,12 @@ function Login() {
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
   const [urls, setUrls] = useState([]);
-  const [selectedUrl, setSelectedUrl] = useState(null);
   const [error, setError] = useState('');
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  
+  const fetchUrls = async (authToken) => {
     try {
-      const res = await axios.post('http://localhost:3001/login', { username, password });
-      const token = res.data.token;
-      setToken(token);
-      localStorage.setItem('token', token);
       const urlsRes = await axios.get('http://localhost:3001/urls', {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${authToken}` },
       });
       if (Array.isArray(urlsRes.data)) {
         setUrls(urlsRes.data);
@@ -28,11 +21,43 @@ function Login() {
         setUrls([]);
       }
     } catch (err) {
-      setError('Falha no login');
-      setToken('');
-      localStorage.removeItem('token');
+      setError('Falha ao buscar URLs');
     }
   };
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
+      fetchUrls(storedToken);
+    }
+  }, []);
+
+ const handleLogin = async (e) => {
+  e.preventDefault();
+  try {
+    const res = await axios.post('http://localhost:3001/login', { username, password });
+    const token = res.data.token;
+    setToken(token);
+    localStorage.setItem('token', token);
+    localStorage.setItem('username', username); 
+
+    const urlsRes = await axios.get('http://localhost:3001/urls', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (Array.isArray(urlsRes.data)) {
+      setUrls(urlsRes.data);
+    } else {
+      setUrls([]);
+    }
+  } catch (err) {
+    setError('Falha no login');
+    setToken('');
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+  }
+};
+
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900 p-4">
@@ -41,12 +66,8 @@ function Login() {
           onSubmit={handleLogin}
           className="flex flex-col space-y-6 bg-gray-800 bg-opacity-90 border border-gray-700 rounded-lg p-12 shadow-xl w-full max-w-md"
         >
-          <h2 className="text-4xl font-bold text-center text-white">
-            Entrar
-          </h2>
-          {error && (
-            <p className="text-red-500 text-center text-lg">{error}</p>
-          )}
+          <h2 className="text-4xl font-bold text-center text-white">Entrar</h2>
+          {error && <p className="text-red-500 text-center text-lg">{error}</p>}
           <div className="space-y-4">
             <input
               type="text"
@@ -88,10 +109,12 @@ function Login() {
               {urls.map((url) => (
                 <li
                   key={url.id}
-                  onClick={() => setSelectedUrl(url)}
                   className="cursor-pointer p-3 mb-3 bg-gray-700 rounded hover:bg-blue-500 transition-colors"
                 >
-                  <div className="flex flex-col sm:flex-row sm:space-x-4">
+                  <Link
+                    to={`/analytics/${url.shortened_url}`}
+                    className="flex flex-col sm:flex-row sm:space-x-4"
+                  >
                     <span className="text-blue-300 font-medium">
                       {url.shortened_url}
                     </span>
@@ -99,15 +122,10 @@ function Login() {
                     <span className="text-blue-200 break-all">
                       {url.original_url}
                     </span>
-                  </div>
+                  </Link>
                 </li>
               ))}
             </ul>
-          )}
-          {selectedUrl && (
-            <div className="mt-8">
-              <AnalyticsDashboard url={selectedUrl} />
-            </div>
           )}
         </div>
       )}
